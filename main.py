@@ -29,41 +29,71 @@ def cli():
 
 @click.command(name="bookmark")
 @click.option(
-    "--url", prompt="Bookmark URL", help="URL of a bookmark including http(s)"
+    "--link",
+    prompt="Bookmark URL",
+    help="Bookmark URL",
+    required=True,
+)
+@click.option("--title", prompt="Title", help="Title of the entry", required=True)
+@click.option(
+    "--pinned",
+    prompt="Pin Entry?",
+    help="Whether to pin the entry",
+    type=click.Choice(["false", "true"]),
+    default="false",
+    required=True,
 )
 @click.option(
-    "--title", prompt="Bookmark/Entry Title", help="Title of log entry for bookmark"
+    "--tags", prompt="Tags", help="List of tags, separated by a comma", default=""
 )
-@click.option("--archive", is_flag=True, help="Take a single page snapshot the URL")
 @click.option(
-    "--summary", prompt="Summary of bookmark", help="Description/summary of bookmark"
+    "--summary",
+    prompt="Summary",
+    help="Description/summary of bookmark with more detail",
+    default="",
 )
-def bookmark(url, title, archive, summary):
+@click.option(
+    "--edit",
+    prompt="Edit in Default Editor?",
+    help="Open the todo entry in the default text editor",
+    is_flag=True,
+    default=False,
+)
+def bookmark(link, title, pinned, tags, summary, edit):
 
     """
     Add a bookmark entry
     """
 
-    # Bookmark Flow
-    # =============
-    # Ask for:
-    # - Entry Title
-    # - URL
-    # - Archive URL?
-    # - Screenshot or SingleFile
-    # - Instruct archive.is to run against URL
-    # - Summary/Description
-    # - Manual
-    # - HTML Head Description (Ask if ok to use)
-    # - Tags?
+    frontmatter = f"""---
+id: {entry_id}
+uuid: {uuid}
+title: {title}
+date: {date_time}
+modified: {date_time}
+types: bookmark
+link: {link}
+pinned: {pinned}
+tags: [{tags}]
+private: true
+---
 
-    url = url
-    title = title
-    summary = summary
-    print(url)
-    print(title)
-    print(summary)
+{summary}
 
+"""
+
+    docs_root = os.environ.get("DOCS_ROOT")
+    log_entry_path = f"{docs_root}/log/content/{entry_id}.md"
+
+    with open(log_entry_path, "w") as todo_file:
+        todo_file.write(frontmatter)
+
+        print(f"Entry saved to: {log_entry_path}")
+
+    if edit == True:
+
+        default_editor = os.environ.get("EDITOR")
+        subprocess.run([default_editor, log_entry_path])
 
 @click.command(name="todo")
 @click.option("--title", prompt="Title", help="Title of the todo entry", required=True)
