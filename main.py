@@ -71,7 +71,7 @@ def bookmark(url, title, archive, summary):
     "--types",
     prompt="Type",
     help="Type of todo entry",
-    type=click.Choice(["todo-p", "todo-1", "todo-2", "todo-3"]),
+    type=click.Choice(["todo-p", "todo-1", "todo-2", "todo-3", "done"]),
     default="todo-3",
     required=True,
 )
