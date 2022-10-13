@@ -23,6 +23,7 @@ docs_root = os.environ.get("DOCS_ROOT")
 log_entry_path = f"{docs_root}/log/content/{entry_id}.md"
 attachments_path = f"{docs_root}/log/static/attachments"
 
+
 @click.group()
 def cli():
 
@@ -88,7 +89,6 @@ private: true
 
 """
 
-
     with open(log_entry_path, "w") as todo_file:
         todo_file.write(frontmatter)
 
@@ -98,8 +98,6 @@ private: true
 
         default_editor = os.environ.get("EDITOR")
         subprocess.run([default_editor, log_entry_path])
-
-
 
 
 @click.command(name="attachments")
@@ -118,7 +116,6 @@ def attachments(filemanager):
 
         subprocess.Popen([filemanager, attachments_path])
         print(f"Attachments directory: {attachments_path}")
-
 
 
 @click.command(name="todo")
@@ -203,4 +200,3 @@ cli.add_command(todo)
 
 # Call the CLI:
 cli()
-
