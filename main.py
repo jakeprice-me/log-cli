@@ -16,6 +16,12 @@ entry_id = str(date_time).replace(":", "").replace(" ", "").replace("-", "")
 # Generate UUID:
 uuid = uuid.uuid4()
 
+# Document directory root:
+docs_root = os.environ.get("DOCS_ROOT")
+
+# Log entry path:
+log_entry_path = f"{docs_root}/log/content/{entry_id}.md"
+attachments_path = f"{docs_root}/log/static/attachments"
 
 @click.group()
 def cli():
@@ -82,8 +88,6 @@ private: true
 
 """
 
-    docs_root = os.environ.get("DOCS_ROOT")
-    log_entry_path = f"{docs_root}/log/content/{entry_id}.md"
 
     with open(log_entry_path, "w") as todo_file:
         todo_file.write(frontmatter)
@@ -94,6 +98,28 @@ private: true
 
         default_editor = os.environ.get("EDITOR")
         subprocess.run([default_editor, log_entry_path])
+
+
+
+
+@click.command(name="attachments")
+@click.option(
+    "--filemanager",
+    prompt="File manager",
+    help="Open attachments directory in provided file manager",
+)
+def attachments(filemanager):
+
+    """
+    Open attachments directory
+    """
+
+    if filemanager:
+
+        subprocess.Popen([filemanager, attachments_path])
+        print(f"Attachments directory: {attachments_path}")
+
+
 
 @click.command(name="todo")
 @click.option("--title", prompt="Title", help="Title of the todo entry", required=True)
@@ -159,9 +185,6 @@ private: true
 
 """
 
-    docs_root = os.environ.get("DOCS_ROOT")
-    log_entry_path = f"{docs_root}/log/content/{entry_id}.md"
-
     with open(log_entry_path, "w") as todo_file:
         todo_file.write(frontmatter)
 
@@ -175,7 +198,9 @@ private: true
 
 # Commands:
 cli.add_command(bookmark)
+cli.add_command(attachments)
 cli.add_command(todo)
 
 # Call the CLI:
 cli()
+
