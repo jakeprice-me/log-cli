@@ -34,6 +34,9 @@ def cli():
     pass
 
 
+# ==== Bookmark ===============================================================
+
+
 @click.command(name="bookmark")
 @click.option(
     "--link",
@@ -100,6 +103,9 @@ private: true
         subprocess.run([default_editor, log_entry_path])
 
 
+# ==== Attachments ============================================================
+
+
 @click.command(name="attachments")
 @click.option(
     "--filemanager",
@@ -116,6 +122,53 @@ def attachments(filemanager):
 
         subprocess.Popen([filemanager, attachments_path])
         print(f"Attachments directory: {attachments_path}")
+
+
+# ==== New Entry ==============================================================
+
+
+@click.command(name="new")
+@click.option(
+    "--edit",
+    prompt="Edit in Default Editor?",
+    help="Open the entry in the default text editor",
+    is_flag=True,
+    default=False,
+)
+def new(edit):
+    """
+    Add a new entry
+    """
+
+    frontmatter = f"""---
+id: {entry_id}
+uuid: {uuid}
+title: 
+date: {date_time}
+modified: {date_time}
+types: 
+link: 
+pinned: false
+tags: []
+private: true
+---
+
+
+
+"""
+
+    with open(log_entry_path, "w") as log_file:
+        log_file.write(frontmatter)
+
+        print(f"Entry saved to: {log_entry_path}")
+
+    if edit == True:
+
+        default_editor = os.environ.get("EDITOR")
+        subprocess.run([default_editor, log_entry_path])
+
+
+# ==== Todo ===================================================================
 
 
 @click.command(name="todo")
@@ -194,8 +247,9 @@ private: true
 
 
 # Commands:
-cli.add_command(bookmark)
 cli.add_command(attachments)
+cli.add_command(bookmark)
+cli.add_command(new)
 cli.add_command(todo)
 
 # Call the CLI:
