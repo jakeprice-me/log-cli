@@ -111,6 +111,7 @@ private: true
     "--filemanager",
     prompt="File manager",
     help="Open attachments directory in provided file manager",
+    type=click.Choice(["nautilus", "open"]),
 )
 def attachments(filemanager):
 
