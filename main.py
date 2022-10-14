@@ -169,6 +169,58 @@ private: true
         subprocess.run([default_editor, log_entry_path])
 
 
+# ==== New Tech Note ==========================================================
+
+
+@click.command(name="tech-note")
+@click.option(
+    "--filename",
+    prompt="Tech Note filename",
+    help="Filename for the tech note",
+    required=True,
+)
+@click.option(
+    "--edit",
+    prompt="Edit in Default Editor?",
+    help="Open the tech note in the default text editor",
+    is_flag=True,
+    default=False,
+)
+def tech_note(filename, edit):
+    """
+    Add a new tech note
+    """
+
+    tech_note_entry_path = f"{docs_root}/log/content/tech-notes/{filename}.md"
+
+    frontmatter = f"""---
+id: {entry_id}
+uuid: {uuid}
+title: 
+date: {date_time}
+modified: {date_time}
+types: tech-note
+link: 
+pinned: false
+tags: []
+private: true
+---
+
+
+
+"""
+
+    with open(tech_note_entry_path, "w") as log_file:
+        log_file.write(frontmatter)
+
+        print(f"Tech Note saved to: {tech_note_entry_path}")
+
+    if edit == True:
+
+        default_editor = os.environ.get("EDITOR")
+        subprocess.run([default_editor, tech_note_entry_path])
+
+
 # ==== Todo ===================================================================
 
 
@@ -251,6 +303,7 @@ private: true
 cli.add_command(attachments)
 cli.add_command(bookmark)
 cli.add_command(new)
+cli.add_command(tech_note)
 cli.add_command(todo)
 
 # Call the CLI:
