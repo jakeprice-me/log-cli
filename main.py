@@ -175,7 +175,7 @@ private: true
 @click.command(name="tech-note")
 @click.option(
     "--filename",
-    prompt="Tech Note filename",
+    prompt="Tech Note filename (without .md)",
     help="Filename for the tech note",
     required=True,
 )
