@@ -133,7 +133,8 @@ def attachments(filemanager):
 
 
 @click.command(name="entries")
-def entries():
+@click.option("-e", "--edit", is_flag=True, default=False)
+def entries(edit):
 
     """
     List log entries
@@ -157,14 +158,12 @@ def entries():
 
             print(entry_id, entry_title)
 
-    print(
-        """---
-Enter ID of Entry to Edit: """
-    )
-    entry_id = input()
+    if edit:
+        print("---\nEnter ID of Entry to Edit: ")
+        entry_id = input()
 
-    default_editor = os.environ.get("EDITOR")
-    subprocess.run([default_editor, f"{path_log_content}/{entry_id}.md"])
+        default_editor = os.environ.get("EDITOR")
+        subprocess.run([default_editor, f"{path_log_content}/{entry_id}.md"])
 
 
 # ==== New Entry ==============================================================
