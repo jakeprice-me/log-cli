@@ -20,8 +20,10 @@ uuid = uuid.uuid4()
 docs_root = os.environ.get("DOCS_ROOT")
 
 # Log entry path:
-log_entry_path = f"{docs_root}/log/content/{entry_id}.md"
-attachments_path = f"{docs_root}/log/static/attachments"
+path_log = f"{docs_root}/log/"
+path_log_content = f"{path_log}/content"
+path_log_entry = f"{path_log_content}/{entry_id}.md"
+path_log_attachments = f"{path_log}/static/attachments"
 
 
 @click.group()
@@ -92,15 +94,15 @@ private: true
 
 """
 
-    with open(log_entry_path, "w") as todo_file:
+    with open(path_log_entry, "w") as todo_file:
         todo_file.write(frontmatter)
 
-        print(f"Entry saved to: {log_entry_path}")
+        print(f"Entry saved to: {path_log_entry}")
 
     if edit == True:
 
         default_editor = os.environ.get("EDITOR")
-        subprocess.run([default_editor, log_entry_path])
+        subprocess.run([default_editor, path_log_entry])
 
 
 # ==== Attachments ============================================================
@@ -121,8 +123,8 @@ def attachments(filemanager):
 
     if filemanager:
 
-        subprocess.Popen([filemanager, attachments_path])
-        print(f"Attachments directory: {attachments_path}")
+        subprocess.Popen([filemanager, path_log_attachments])
+        print(f"Attachments directory: {path_log_attachments}")
 
 
 # ==== New Entry ==============================================================
@@ -158,15 +160,15 @@ private: true
 
 """
 
-    with open(log_entry_path, "w") as log_file:
+    with open(path_log_entry, "w") as log_file:
         log_file.write(frontmatter)
 
-        print(f"Entry saved to: {log_entry_path}")
+        print(f"Entry saved to: {path_log_entry}")
 
     if edit == True:
 
         default_editor = os.environ.get("EDITOR")
-        subprocess.run([default_editor, log_entry_path])
+        subprocess.run([default_editor, path_log_entry])
 
 
 # ==== New Tech Note ==========================================================
@@ -288,15 +290,15 @@ private: true
 
 """
 
-    with open(log_entry_path, "w") as todo_file:
+    with open(path_log_entry, "w") as todo_file:
         todo_file.write(frontmatter)
 
-        print(f"Entry saved to: {log_entry_path}")
+        print(f"Entry saved to: {path_log_entry}")
 
     if edit == True:
 
         default_editor = os.environ.get("EDITOR")
-        subprocess.run([default_editor, log_entry_path])
+        subprocess.run([default_editor, path_log_entry])
 
 
 # Commands:
