@@ -2,8 +2,10 @@
 
 import click
 import datetime
+import glob
 import re
 import uuid
+import frontmatter
 import os
 import subprocess
 
@@ -20,7 +22,7 @@ uuid = uuid.uuid4()
 docs_root = os.environ.get("DOCS_ROOT")
 
 # Log entry path:
-path_log = f"{docs_root}/log/"
+path_log = f"{docs_root}/log"
 path_log_content = f"{path_log}/content"
 path_log_entry = f"{path_log_content}/{entry_id}.md"
 path_log_attachments = f"{path_log}/static/attachments"
@@ -125,6 +127,44 @@ def attachments(filemanager):
 
         subprocess.Popen([filemanager, path_log_attachments])
         print(f"Attachments directory: {path_log_attachments}")
+
+
+# ==== List Entries ===========================================================
+
+
+@click.command(name="entries")
+def entries():
+
+    """
+    List log entries
+    """
+
+    # Glob all entry files:
+    path_log_entry_files = glob.glob(path_log_content + "/*.md")
+    path_log_entry_files.sort()
+
+    for entry in path_log_entry_files:
+        with open(entry) as content:
+
+            # Read entry frontmatter:
+            metadata, content = frontmatter.parse(content.read())
+
+            # Retrieve entry ID:
+            entry_id = metadata["id"]
+
+            # Retrieve entry title:
+            entry_title = metadata["title"]
+
+            print(entry_id, entry_title)
+
+    print(
+        """---
+Enter ID of Entry to Edit: """
+    )
+    entry_id = input()
+
+    default_editor = os.environ.get("EDITOR")
+    subprocess.run([default_editor, f"{path_log_content}/{entry_id}.md"])
 
 
 # ==== New Entry ==============================================================
@@ -304,6 +344,7 @@ private: true
 # Commands:
 cli.add_command(attachments)
 cli.add_command(bookmark)
+cli.add_command(entries)
 cli.add_command(new)
 cli.add_command(tech_note)
 cli.add_command(todo)
