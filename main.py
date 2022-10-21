@@ -165,10 +165,10 @@ def entries(edit):
             entry_list_row = [entry_id, entry_types, entry_title]
             entry_list_table.append(entry_list_row)
 
-    print(tabulate(entry_list_table, headers=["ID", "Types", "Title"], tablefmt="psql"))
+    print(tabulate(entry_list_table, headers=["ID", "Types", "Title"], tablefmt="github"))
 
     if edit:
-        print("Enter ID of Entry to Edit: ")
+        print("---\nEnter ID of Entry to Edit: ")
         entry_id = input()
 
         default_editor = os.environ.get("EDITOR")
