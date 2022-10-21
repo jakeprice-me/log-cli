@@ -168,7 +168,7 @@ def entries(edit):
     print(tabulate(entry_list_table, headers=["ID", "Types", "Title"], tablefmt="psql"))
 
     if edit:
-        print("---\nEnter ID of Entry to Edit: ")
+        print("Enter ID of Entry to Edit: ")
         entry_id = input()
 
         default_editor = os.environ.get("EDITOR")
