@@ -8,6 +8,7 @@ import uuid
 import frontmatter
 import os
 import subprocess
+from tabulate import tabulate
 
 # Get current date/time:
 date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -144,6 +145,8 @@ def entries(edit):
     path_log_entry_files = glob.glob(path_log_content + "/*.md")
     path_log_entry_files.sort()
 
+    entry_list_table = []
+
     for entry in path_log_entry_files:
         with open(entry) as content:
 
@@ -153,10 +156,16 @@ def entries(edit):
             # Retrieve entry ID:
             entry_id = metadata["id"]
 
+            # Retrieve entry type:
+            entry_types = metadata["types"]
+
             # Retrieve entry title:
             entry_title = metadata["title"]
 
-            print(entry_id, entry_title)
+            entry_list_row = [entry_id, entry_types, entry_title]
+            entry_list_table.append(entry_list_row)
+
+    print(tabulate(entry_list_table, headers=["ID", "Types", "Title"], tablefmt="psql"))
 
     if edit:
         print("---\nEnter ID of Entry to Edit: ")
