@@ -115,35 +115,35 @@ private: true
 @click.option(
     "-p",
     "--list_todo_p",
-    prompt="List all entries with a type of todo-p",
+    help="List all entries with a type of todo-p",
     is_flag=True,
     default=False,
 )
 @click.option(
     "-1",
     "--list_todo_1",
-    prompt="List all entries with a type of todo-1",
+    help="List all entries with a type of todo-1",
     is_flag=True,
     default=False,
 )
 @click.option(
     "-2",
     "--list_todo_2",
-    prompt="List all entries with a type of todo-2",
+    help="List all entries with a type of todo-2",
     is_flag=True,
     default=False,
 )
 @click.option(
     "-3",
     "--list_todo_3",
-    prompt="List all entries with a type of todo-3",
+    help="List all entries with a type of todo-3",
     is_flag=True,
     default=False,
 )
 @click.option(
     "-a",
     "--list_all",
-    prompt="List all entries with a type of todo-*",
+    help="List all entries with a type of todo-*",
     is_flag=True,
     default=False,
 )
