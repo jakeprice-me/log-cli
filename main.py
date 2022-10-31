@@ -216,7 +216,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             tabulate(
                 sorted(entry_list_table_todo_p),
                 headers=["ID", "Types", "Title"],
-                tablefmt="github",
+                tablefmt="mixed_grid",
             )
         )
 
@@ -225,7 +225,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             tabulate(
                 sorted(entry_list_table_todo_1),
                 headers=["ID", "Types", "Title"],
-                tablefmt="github",
+                tablefmt="mixed_grid",
             )
         )
 
@@ -234,7 +234,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             tabulate(
                 sorted(entry_list_table_todo_2),
                 headers=["ID", "Types", "Title"],
-                tablefmt="github",
+                tablefmt="mixed_grid",
             )
         )
 
@@ -243,7 +243,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             tabulate(
                 sorted(entry_list_table_todo_3),
                 headers=["ID", "Types", "Title"],
-                tablefmt="github",
+                tablefmt="mixed_grid",
             )
         )
 
@@ -254,7 +254,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             + entry_list_table_todo_1
             + entry_list_table_todo_p
         )
-        print(tabulate(todo_all, headers=["ID", "Types", "Title"], tablefmt="github"))
+        print(tabulate(todo_all, headers=["ID", "Types", "Title"], tablefmt="mixed_grid"))
 
     if edit:
         print("---\nEnter ID of Entry to Edit: ")
@@ -326,7 +326,7 @@ def entries(edit):
         tabulate(
             sorted(entry_list_table),
             headers=["ID", "Types", "Title"],
-            tablefmt="github",
+            tablefmt="mixed_grid",
         )
     )
 
