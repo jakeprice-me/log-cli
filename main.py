@@ -147,7 +147,7 @@ private: true
     is_flag=True,
     default=False,
 )
-@click.option("-e", "--edit", is_flag=True, default=False)
+@click.option("-e", "--edit", help="Prompt to input an entry ID for editing", is_flag=True, default=False)
 def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
 
     """
