@@ -290,8 +290,7 @@ def entries(edit):
     """
 
     # Glob all entry files:
-    path_log_entry_files = glob.glob(path_log_content + "**/*.md")
-    path_log_entry_files.sort()
+    path_log_entry_files = glob.glob(f"{path_log_content}/**/*.md", recursive=True)
 
     entry_list_table = []
 
@@ -301,20 +300,22 @@ def entries(edit):
             # Read entry frontmatter:
             metadata, content = frontmatter.parse(content.read())
 
-            # Retrieve entry ID:
-            entry_id = metadata["id"]
+            if metadata:
 
-            # Retrieve entry type:
-            entry_types = metadata["types"]
+                # Retrieve entry ID:
+                entry_id = metadata["id"]
 
-            # Retrieve entry title:
-            entry_title = metadata["title"]
+                # Retrieve entry type:
+                entry_types = metadata["types"]
 
-            entry_list_row = [entry_id, entry_types, entry_title]
-            entry_list_table.append(entry_list_row)
+                # Retrieve entry title:
+                entry_title = metadata["title"]
+
+                entry_list_row = [str(entry_id), entry_types, entry_title]
+                entry_list_table.append(entry_list_row)
 
     print(
-        tabulate(entry_list_table, headers=["ID", "Types", "Title"], tablefmt="github")
+        tabulate(sorted(entry_list_table), headers=["ID", "Types", "Title"], tablefmt="github")
     )
 
     if edit:
