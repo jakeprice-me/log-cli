@@ -147,7 +147,13 @@ private: true
     is_flag=True,
     default=False,
 )
-@click.option("-e", "--edit", help="Prompt to input an entry ID for editing", is_flag=True, default=False)
+@click.option(
+    "-e",
+    "--edit",
+    help="Prompt to input an entry ID for editing",
+    is_flag=True,
+    default=False,
+)
 def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
 
     """
@@ -155,7 +161,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
     """
 
     # Glob all entry files:
-    path_log_entry_files = glob.glob(path_log_content + "**/*.md")
+    path_log_entry_files = glob.glob(path_log_content + "/*.md")
     path_log_entry_files.sort()
 
     entry_list_table_todo_p = []
@@ -169,44 +175,46 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             # Read entry frontmatter:
             metadata, content = frontmatter.parse(content.read())
 
-            # Retrieve entry ID:
-            entry_id = metadata["id"]
+            if metadata:
 
-            # Retrieve entry type:
-            entry_types = metadata["types"]
+                # Retrieve entry ID:
+                entry_id = metadata["id"]
 
-            # Retrieve entry title:
-            entry_title = metadata["title"]
+                # Retrieve entry type:
+                entry_types = metadata["types"]
 
-            todo_p = re.search("todo-p", entry_types)
-            todo_1 = re.search("todo-1", entry_types)
-            todo_2 = re.search("todo-2", entry_types)
-            todo_3 = re.search("todo-3", entry_types)
+                # Retrieve entry title:
+                entry_title = metadata["title"]
 
-            if todo_p:
+                todo_p = re.search("todo-p", entry_types)
+                todo_1 = re.search("todo-1", entry_types)
+                todo_2 = re.search("todo-2", entry_types)
+                todo_3 = re.search("todo-3", entry_types)
 
-                entry_list_row_todo_p = [entry_id, entry_types, entry_title]
-                entry_list_table_todo_p.append(entry_list_row_todo_p)
+                if todo_p:
 
-            if todo_1:
+                    entry_list_row_todo_p = [str(entry_id), entry_types, entry_title]
+                    entry_list_table_todo_p.append(entry_list_row_todo_p)
 
-                entry_list_row_todo_1 = [entry_id, entry_types, entry_title]
-                entry_list_table_todo_1.append(entry_list_row_todo_1)
+                if todo_1:
 
-            if todo_2:
+                    entry_list_row_todo_1 = [str(entry_id), entry_types, entry_title]
+                    entry_list_table_todo_1.append(entry_list_row_todo_1)
 
-                entry_list_row_todo_2 = [entry_id, entry_types, entry_title]
-                entry_list_table_todo_2.append(entry_list_row_todo_2)
+                if todo_2:
 
-            if todo_3:
+                    entry_list_row_todo_2 = [str(entry_id), entry_types, entry_title]
+                    entry_list_table_todo_2.append(entry_list_row_todo_2)
 
-                entry_list_row_todo_3 = [entry_id, entry_types, entry_title]
-                entry_list_table_todo_3.append(entry_list_row_todo_3)
+                if todo_3:
+
+                    entry_list_row_todo_3 = [str(entry_id), entry_types, entry_title]
+                    entry_list_table_todo_3.append(entry_list_row_todo_3)
 
     if list_todo_p:
         print(
             tabulate(
-                entry_list_table_todo_p,
+                sorted(entry_list_table_todo_p),
                 headers=["ID", "Types", "Title"],
                 tablefmt="github",
             )
@@ -215,7 +223,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
     if list_todo_1:
         print(
             tabulate(
-                entry_list_table_todo_1,
+                sorted(entry_list_table_todo_1),
                 headers=["ID", "Types", "Title"],
                 tablefmt="github",
             )
@@ -224,7 +232,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
     if list_todo_2:
         print(
             tabulate(
-                entry_list_table_todo_2,
+                sorted(entry_list_table_todo_2),
                 headers=["ID", "Types", "Title"],
                 tablefmt="github",
             )
@@ -233,7 +241,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
     if list_todo_3:
         print(
             tabulate(
-                entry_list_table_todo_3,
+                sorted(entry_list_table_todo_3),
                 headers=["ID", "Types", "Title"],
                 tablefmt="github",
             )
@@ -241,10 +249,10 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
 
     if list_all:
         todo_all = (
-            entry_list_table_todo_p
-            + entry_list_table_todo_1
+            entry_list_table_todo_3
             + entry_list_table_todo_2
-            + entry_list_table_todo_3
+            + entry_list_table_todo_1
+            + entry_list_table_todo_p
         )
         print(tabulate(todo_all, headers=["ID", "Types", "Title"], tablefmt="github"))
 
@@ -315,7 +323,11 @@ def entries(edit):
                 entry_list_table.append(entry_list_row)
 
     print(
-        tabulate(sorted(entry_list_table), headers=["ID", "Types", "Title"], tablefmt="github")
+        tabulate(
+            sorted(entry_list_table),
+            headers=["ID", "Types", "Title"],
+            tablefmt="github",
+        )
     )
 
     if edit:
