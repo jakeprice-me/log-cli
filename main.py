@@ -155,7 +155,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
     """
 
     # Glob all entry files:
-    path_log_entry_files = glob.glob(path_log_content + "/*.md")
+    path_log_entry_files = glob.glob(path_log_content + "**/*.md")
     path_log_entry_files.sort()
 
     entry_list_table_todo_p = []
