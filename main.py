@@ -319,13 +319,16 @@ def entries(edit):
                 # Retrieve entry title:
                 entry_title = metadata["title"]
 
-                entry_list_row = [str(entry_id), entry_types, entry_title]
+                # Retrieve draft status:
+                entry_draft = metadata["draft"]
+
+                entry_list_row = [str(entry_id), entry_types, entry_title, entry_draft]
                 entry_list_table.append(entry_list_row)
 
     print(
         tabulate(
             sorted(entry_list_table),
-            headers=["ID", "Types", "Title"],
+            headers=["ID", "Types", "Title", "Draft?"],
             tablefmt="mixed_grid",
         )
     )
