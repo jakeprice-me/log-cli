@@ -290,7 +290,7 @@ def entries(edit):
     """
 
     # Glob all entry files:
-    path_log_entry_files = glob.glob(path_log_content + "/*.md")
+    path_log_entry_files = glob.glob(path_log_content + "**/*.md")
     path_log_entry_files.sort()
 
     entry_list_table = []
