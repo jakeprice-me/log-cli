@@ -91,6 +91,7 @@ link: {link}
 pinned: {pinned}
 tags: [{tags}]
 private: true
+draft: false
 ---
 
 {summary}
