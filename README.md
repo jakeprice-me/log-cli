@@ -16,7 +16,7 @@ pip3 install .
 To generate a bash completion file run the below.
 
 ```sh
-_LOG_COMPLETE=bash_source log > ./log-complete.bash
+_LOG_CLI_COMPLETE=bash_source log-cli > ./.log-cli-complete.bash
 ```
 
 ## Enable Bash Command Completion
@@ -24,10 +24,10 @@ _LOG_COMPLETE=bash_source log > ./log-complete.bash
 Then source it in your `.bashrc` file.
 
 ```sh
-. <path-to-repo>/log-complete.bash
+. <path-to-repo>/.log-cli--complete.bash
 ```
 
 ## Usage
 
-Type `log` and away you go.
+Type `log-cli` and away you go.
 
