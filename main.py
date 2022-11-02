@@ -311,20 +311,25 @@ def entries(edit):
 
             if metadata:
 
-                # Retrieve entry ID:
-                entry_id = metadata["id"]
+                try:
+                    # Retrieve entry ID:
+                    entry_id = metadata["id"]
 
-                # Retrieve entry type:
-                entry_types = metadata["types"]
+                    # Retrieve entry type:
+                    entry_types = metadata["types"]
 
-                # Retrieve entry title:
-                entry_title = metadata["title"]
+                    # Retrieve entry title:
+                    entry_title = metadata["title"]
 
-                # Retrieve draft status:
-                entry_draft = metadata["draft"]
+                    # Retrieve draft status:
+                    entry_draft = metadata["draft"]
 
-                entry_list_row = [str(entry_id), entry_types, entry_title, entry_draft]
-                entry_list_table.append(entry_list_row)
+                except:
+                    raise Exception(f"Error detected in the frontmatter for {entry_id} [{entry_title}] ")
+
+                else:
+                    entry_list_row = [str(entry_id), entry_types, entry_title, entry_draft]
+                    entry_list_table.append(entry_list_row)
 
     print(
         tabulate(
