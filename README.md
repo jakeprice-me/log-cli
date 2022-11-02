@@ -4,15 +4,30 @@ An interactive command line interface to make working with my personal log quick
 
 ## Install Python Dependencies
 
+From within the repository, run the following `pip` commands to install the dependencies and make an executable that you can call.
+
 ```sh
 pip3 --requirement requirements.txt
+pip3 install .
+```
+
+## Generate Bash Command Completion File
+
+To generate a bash completion file run the below.
+
+```sh
+_LOG_COMPLETE=bash_source log > ./log-complete.bash
+```
+
+## Enable Bash Command Completion
+
+Then source it in your `.bashrc` file.
+
+```sh
+. <path-to-repo>/log-complete.bash
 ```
 
 ## Usage
 
-Don't bother running it from the directory, create an alias to run it, like the below.
-
-```sh
-alias log-cli="python3 $CODE_ROOT/log-cli/main.py"
-```
+Type `log` and away you go.
 
