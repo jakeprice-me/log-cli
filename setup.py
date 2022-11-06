@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='log-cli',
-    version='0.2.1',
+    version='0.2.2',
     py_modules=['main'],
     install_requires=[
         'Click',
