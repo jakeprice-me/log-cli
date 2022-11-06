@@ -427,6 +427,7 @@ link:
 pinned: false
 tags: []
 private: true
+draft: false
 ---
 
 
@@ -505,6 +506,7 @@ link: {link}
 pinned: {pinned}
 tags: [{tags}]
 private: true
+draft: false
 ---
 
 {summary}
