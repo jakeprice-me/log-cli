@@ -217,7 +217,6 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             tabulate(
                 sorted(entry_list_table_todo_p),
                 headers=["ID", "Types", "Title"],
-                tablefmt="mixed_grid",
             )
         )
 
@@ -226,7 +225,6 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             tabulate(
                 sorted(entry_list_table_todo_1),
                 headers=["ID", "Types", "Title"],
-                tablefmt="mixed_grid",
             )
         )
 
@@ -235,7 +233,6 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             tabulate(
                 sorted(entry_list_table_todo_2),
                 headers=["ID", "Types", "Title"],
-                tablefmt="mixed_grid",
             )
         )
 
@@ -244,7 +241,6 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             tabulate(
                 sorted(entry_list_table_todo_3),
                 headers=["ID", "Types", "Title"],
-                tablefmt="mixed_grid",
             )
         )
 
@@ -255,7 +251,7 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
             + entry_list_table_todo_1
             + entry_list_table_todo_p
         )
-        print(tabulate(todo_all, headers=["ID", "Types", "Title"], tablefmt="mixed_grid"))
+        print(tabulate(todo_all, headers=["ID", "Types", "Title"]))
 
     if edit:
         print("---\nEnter ID of Entry to Edit: ")
@@ -334,8 +330,7 @@ def entries(edit):
     print(
         tabulate(
             sorted(entry_list_table),
-            headers=["ID", "Types", "Title", "Draft?"],
-            tablefmt="mixed_grid",
+            headers=["ID", "Types", "Title", "Draft?"]
         )
     )
 
