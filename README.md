@@ -7,7 +7,7 @@ An interactive command line interface to make working with my personal log quick
 From within the repository, run the following `pip` commands to install the dependencies and make an executable that you can call.
 
 ```sh
-pip3 --requirement requirements.txt
+pip3 install --requirement requirements.txt
 pip3 install .
 ```
 
