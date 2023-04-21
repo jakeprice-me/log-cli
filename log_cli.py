@@ -1,14 +1,24 @@
 #!/usr/bin/python3
 
-import click
 import datetime
 import glob
-import re
-import uuid
-import frontmatter
 import os
+import re
 import subprocess
+import uuid
+import click
+import frontmatter
+import yaml
 from tabulate import tabulate
+
+# Configuration file:
+with open("config.yml", "r", encoding="utf-8") as config:
+    # Load config file:
+    config_file = yaml.safe_load(config)
+
+# Configuration variables:
+log_url = config_file["log_url"]
+web_browser = config_file["web_browser"]
 
 # Get current date/time:
 date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -31,7 +41,6 @@ path_log_attachments = f"{path_log}/static/attachments"
 
 @click.group()
 def cli():
-
     """
     Log CLI
     """
@@ -40,6 +49,15 @@ def cli():
 
 
 # ==== Bookmark ===============================================================
+
+
+@click.command(name="browser")
+def browse():
+    """
+    View Logs in a Browser
+    """
+
+    subprocess.Popen([f"/usr/bin/{web_browser}", log_url])
 
 
 @click.command(name="bookmark")
@@ -75,7 +93,6 @@ def cli():
     default=False,
 )
 def bookmark(link, title, pinned, tags, summary, edit):
-
     """
     Add a bookmark entry
     """
@@ -104,7 +121,6 @@ draft: false
         print(f"Entry saved to: {path_log_entry}")
 
     if edit == True:
-
         default_editor = os.environ.get("EDITOR")
         subprocess.run([default_editor, path_log_entry])
 
@@ -156,7 +172,6 @@ draft: false
     default=False,
 )
 def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
-
     """
     List all todos
     """
@@ -172,12 +187,10 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
 
     for entry in path_log_entry_files:
         with open(entry) as content:
-
             # Read entry frontmatter:
             metadata, content = frontmatter.parse(content.read())
 
             if metadata:
-
                 # Retrieve entry ID:
                 entry_id = metadata["id"]
 
@@ -193,22 +206,18 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
                 todo_3 = re.search("todo-3", entry_types)
 
                 if todo_p:
-
                     entry_list_row_todo_p = [str(entry_id), entry_types, entry_title]
                     entry_list_table_todo_p.append(entry_list_row_todo_p)
 
                 if todo_1:
-
                     entry_list_row_todo_1 = [str(entry_id), entry_types, entry_title]
                     entry_list_table_todo_1.append(entry_list_row_todo_1)
 
                 if todo_2:
-
                     entry_list_row_todo_2 = [str(entry_id), entry_types, entry_title]
                     entry_list_table_todo_2.append(entry_list_row_todo_2)
 
                 if todo_3:
-
                     entry_list_row_todo_3 = [str(entry_id), entry_types, entry_title]
                     entry_list_table_todo_3.append(entry_list_row_todo_3)
 
@@ -272,13 +281,11 @@ def todos(list_todo_p, list_todo_1, list_todo_2, list_todo_3, list_all, edit):
     type=click.Choice(["nautilus", "open"]),
 )
 def attachments(filemanager):
-
     """
     Open attachments directory
     """
 
     if filemanager:
-
         subprocess.Popen([filemanager, path_log_attachments])
         print(f"Attachments directory: {path_log_attachments}")
 
@@ -289,7 +296,6 @@ def attachments(filemanager):
 @click.command(name="entries")
 @click.option("-e", "--edit", is_flag=True, default=False)
 def entries(edit):
-
     """
     List log entries
     """
@@ -301,12 +307,10 @@ def entries(edit):
 
     for entry in path_log_entry_files:
         with open(entry) as content:
-
             # Read entry frontmatter:
             metadata, content = frontmatter.parse(content.read())
 
             if metadata:
-
                 try:
                     # Retrieve entry ID:
                     entry_id = metadata["id"]
@@ -321,17 +325,21 @@ def entries(edit):
                     entry_draft = metadata["draft"]
 
                 except:
-                    raise Exception(f"Error detected in the frontmatter for {entry_id} [{entry_title}] ")
+                    raise Exception(
+                        f"Error detected in the frontmatter for {entry_id} [{entry_title}] "
+                    )
 
                 else:
-                    entry_list_row = [str(entry_id), entry_types, entry_title, entry_draft]
+                    entry_list_row = [
+                        str(entry_id),
+                        entry_types,
+                        entry_title,
+                        entry_draft,
+                    ]
                     entry_list_table.append(entry_list_row)
 
     print(
-        tabulate(
-            sorted(entry_list_table),
-            headers=["ID", "Types", "Title", "Draft?"]
-        )
+        tabulate(sorted(entry_list_table), headers=["ID", "Types", "Title", "Draft?"])
     )
 
     if edit:
@@ -382,7 +390,6 @@ draft: false
         print(f"Entry saved to: {path_log_entry}")
 
     if edit == True:
-
         default_editor = os.environ.get("EDITOR")
         subprocess.run([default_editor, path_log_entry])
 
@@ -435,7 +442,6 @@ draft: false
         print(f"Tech Note saved to: {tech_note_entry_path}")
 
     if edit == True:
-
         default_editor = os.environ.get("EDITOR")
         subprocess.run([default_editor, tech_note_entry_path])
 
@@ -485,7 +491,6 @@ draft: false
     default=False,
 )
 def todo(title, types, link, pinned, tags, summary, edit):
-
     """
     Add a new todo entry
     """
@@ -514,7 +519,6 @@ draft: false
         print(f"Entry saved to: {path_log_entry}")
 
     if edit == True:
-
         default_editor = os.environ.get("EDITOR")
         subprocess.run([default_editor, path_log_entry])
 
@@ -522,6 +526,7 @@ draft: false
 # Commands:
 cli.add_command(attachments)
 cli.add_command(bookmark)
+cli.add_command(browse)
 cli.add_command(entries)
 cli.add_command(new)
 cli.add_command(tech_note)
