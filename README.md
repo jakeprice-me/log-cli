@@ -11,20 +11,28 @@ pip3 install --requirement requirements.txt
 pip3 install .
 ```
 
-## Generate Bash Command Completion File
+## Generate Command Completion File
 
-To generate a bash completion file run the below.
+To generate a completion file run the below.
 
 ```sh
+# Bash:
 _LOG_CLI_COMPLETE=bash_source log-cli > ./.log-cli-complete.bash
+
+# Fish:
+_LOG_CLI_COMPLETE=fish_source log-cli > ~/.log-cli-complete.fish
 ```
 
-## Enable Bash Command Completion
+## Enable Command Completion
 
-Then source it in your `.bashrc` file.
+Then source it in your shell file.
 
 ```sh
-. <path-to-repo>/.log-cli--complete.bash
+# Bash:
+. <path-to-repo>/.log-cli-complete.bash
+
+# Fish:
+source <path-to-repo>/.log-cli-complete.fish
 ```
 
 ## Usage
